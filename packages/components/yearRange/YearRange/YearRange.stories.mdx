@@ -1,0 +1,72 @@
+import Vue from 'vue'
+import { DatePicker } from 'element-ui'
+
+Vue.use(DatePicker)
+
+import { Meta, Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import YearRange from './YearRange.vue'
+
+<Meta
+  title="Components/yearRange/YearRange"
+  component={YearRange}
+  argTypes={{
+    value: {
+      name: 'value',
+      description: 'v-model 绑定的值，接收数组。注意时间为 Date 格式！'
+    },
+    size: {
+      name: 'size',
+      description: '输入框大小，同 element 的 DatePicker 组件。支持 large, small, mini'
+    },
+    clearable: {
+      name: 'clearable',
+      description: '是否显示清除按钮'
+    },
+    editable: {
+      name: 'editable',
+      description: '文本框是否可输入'
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  data() {
+    return {
+      timeRange: [new Date('2015-1-1 00:00:00'),new Date('2021-1-1 00:00:00')]
+    };
+  },
+  props: Object.keys(argTypes),
+  components: { YearRange },
+  template: `
+    <YearRange v-bind="$props" v-model="timeRange" />
+  `,
+});
+
+# 年份范围选择框
+
+利用两个 DatePicker 组件，来实现年份选择功能。使用 `v-model` 实现双向绑定，数组内只支持 `Date` 格式。
+
+支持如下属性：
+
+- size 控制输入框大小，同 element 的 DatePicker 组件。支持 `large`, `small`, `mini`
+- clearable 是否显示清除按钮
+- editable 文本框是否可输入
+
+**注意，不支持其他 DatePicker 组件属性和方法！**
+
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      clearable: true,
+      editable: true
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+#### 属性
+
+<ArgsTable story="Default" />

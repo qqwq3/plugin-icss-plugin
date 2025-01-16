@@ -1,0 +1,36 @@
+import { Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import CateTree from './CateTree.vue'
+
+# 分类树组件
+
+#### loadNode 方法为必填函数，异步加载数据节点，会传递两个参数：
+nodeId 当前节点Id，初始加载时为空
+callback 回调函数
+
+#### 另提供 handleNodeClick 方法，为点击 “节点” 时执行的方法。
+
+```html
+<cate-tree @loadNode="loadNode" @handleNodeClick="handleNodeClick"/>
+```
+```javascript
+loadNode: (nodeId, callback)=> {
+  const arr = []
+  for (let i = 0; i < 5; i++) {
+    const nodeId  = Math.ceil(Math.random() * 10000);
+    // 模拟数据
+    // id: 节点Id
+    // name: 节点名称
+    // isLeaf: 是否叶子节点
+    arr.push({
+      id: nodeId,
+      name: 'Tree Node ' + nodeId,
+      isLeaf: nodeId < 5000
+    })
+  }
+  callback(arr)
+}
+
+handleNodeClick: (node) => {
+  console.log("点击节点: " + node);
+}
+```

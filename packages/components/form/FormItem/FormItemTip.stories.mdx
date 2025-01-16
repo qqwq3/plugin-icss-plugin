@@ -1,0 +1,39 @@
+import { Meta, } from '@storybook/addon-docs';
+
+<Meta
+  title="Components/form/FormItem"
+  argTypes={{
+    errTip: {
+      name: 'errTip',
+      description: '错误信息tip弹窗。继承ELTooltip属性。'
+    },
+  }}
+/>
+
+# FormItemTip Form表单改写
+
+由`element`中的`FormItem`组件改写而来，将错误信息修改为`Tooltip`的方式显示。
+
+支持原有`FormItem`组件的所有属性（error插槽除外）。
+
+支持`Tooltip`组件所有属性，在组件上使用`errTip`对象来传递`Tooltip`组件属性，并且使用名称为`errTipContent`的插槽来替代`Tooltip`的`content`插槽。
+
+由于storybook编译限制，无法演示，具体代码如下：
+
+```html
+<el-form
+  ref="form"
+  :model="form"
+  :rules="rules"
+  label-width="80px"
+>
+  <FormItemTip label="应用ID" prop="id">
+    <el-input v-model="form.id" placeholder="请输入应用ID" />
+  </FormItemTip>
+  <FormItemTip label="应用名称" prop="name" :err-tip="{ effect:'light' }">
+    <el-input v-model="form.name" placeholder="请输入应用名称" />
+    <template v-slot:tipContent="{ error }">错误：{{ error }}</template>
+  </FormItemTip>
+</el-form>
+```
+

@@ -1,0 +1,68 @@
+import Vue from 'vue'
+import { Button, Dropdown, DropdownMenu, DropdownItem } from 'element-ui'
+Vue.use(Button)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+
+import { Meta, Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import CtrBtnFilter from './CtrBtnFilter.vue'
+
+<Meta
+  title="Components/table/CtrBtnFilter"
+  component={CtrBtnFilter}
+  argTypes={{
+    max: {
+      name: 'max',
+      description: '用于控制最多显示多少个按钮，最小值为 2'
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { CtrBtnFilter },
+  template: `
+    <CtrBtnFilter v-bind="$props">
+      <span>新增 </span>
+    </CtrBtnFilter>
+  `,
+});
+
+# 按钮数量格式
+
+一般用于多个按钮的隐藏，多用于表格或表单内的控制按钮。**子元素数量**超过 `max` 数值则会出现 `更多` 按钮，将多余的按钮放置于下拉框中。
+
+实际情况 `max` 最小值应大于等于 2。小于2会导致只显示`更多`按钮或一个`slots`内容（只有一个按钮的情况）。可使用 `slot#more` **插槽** 自定义更多按钮。
+
+支持在按钮中使用 `v-if` 和 **权限判断指令** ，暂不支持 `v-show` 。如果最终渲染时 `slots` 为空，则不渲染组件。按钮尽量**不要嵌套多层**！
+
+```html
+// 正确
+<a>link1</a>
+<a>link2</a>
+<a>link3</a>
+// 正确
+<el-button @click="xxx">按钮1</el-button>
+<el-button @click="xxx">按钮2</el-button>
+<el-button @click="xxx">按钮3</el-button>
+
+// 错误
+<div><el-button @click="xxx"><span>按钮1</span></el-button></div>
+<div><el-button @click="xxx"><span>按钮2</span></el-button></div>
+<div><el-button @click="xxx"><span>按钮3</span></el-button></div>
+```
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      max: 0
+    }}>
+    {Template.bind({})}
+   </Story>
+</Canvas>
+
+#### 属性
+
+<ArgsTable story="Default" />

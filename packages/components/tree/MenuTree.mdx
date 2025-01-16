@@ -1,0 +1,39 @@
+import { Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import MenuTree from './MenuTree.vue'
+import ToolTipWithEllipsis from '../toolTip/ToolTipWithEllipsis/ToolTipWithEllipsis.vue'
+
+# 分类树组件（通用于列表页左侧）
+
+#### 建议按下面例子，创建业务树组件
+
+```html
+  <menu-tree
+    placeholder="请输入名称"
+    root-name="组织架构"
+    node-key="id"
+    default-expand-all
+    :data="treeData"
+    :selected="selectNode"
+    @node-click="handleNodeClick"
+  >
+    <template v-if="$scopedSlots.default" v-slot:default="{ node, data, filterText }">
+      <slot :node="node" :data="data" :filterText="filterText"/>
+    </template>
+    <template v-else v-slot:default="{ data, filterText }">
+      <ToolTipWithEllipsis placement="top" :content="data[treeProps.label]" style="flex: 1 1 auto; overflow:hidden;">
+        <p class="text-ellipsis" v-html="filterText ? data[treeProps.label + '_high'] : data[treeProps.label]" />
+      </ToolTipWithEllipsis>
+    </template>
+  </menu-tree>
+```
+```javascript
+// 需要维护的属性
+treeData: [], // 数据源
+selectNode: '', //选中节点ID
+
+// 需要定义的函数
+handleNodeClick: (data) => {
+  console.log("点击节点: " + node);
+  this.selectNode = data['id']
+}
+```

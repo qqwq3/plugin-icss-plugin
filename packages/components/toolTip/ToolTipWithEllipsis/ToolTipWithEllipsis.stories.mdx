@@ -1,0 +1,96 @@
+import Vue from 'vue'
+import { Tooltip } from 'element-ui'
+Vue.use(Tooltip)
+
+import { Meta, Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import ToolTipWithEllipsis from './ToolTipWithEllipsis.vue'
+
+<Meta
+  title="Components/toolTip/ToolTipWithEllipsis"
+  component={ToolTipWithEllipsis}
+  argTypes={{
+    content: {
+      name: 'content',
+      description: '弹窗内容'
+    },
+    showLine: {
+      name: 'showLine',
+      description: '显示行数'
+    },
+    width: {
+      name: 'width',
+      description: '弹窗的最大宽度'
+    },
+    systemName: {
+      name: 'systemName',
+      description: '子系统名称'
+    }
+  }}
+/>
+
+export const TemplateEllipsis = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { ToolTipWithEllipsis },
+  template: `
+    <div style="width: 300px">
+      <ToolTipWithEllipsis v-bind="$props">
+        <p class="text-ellipsis">截断文字截断文字截断文字截断文字截断文字截断文字截断文字</p>
+      </ToolTipWithEllipsis>
+    </div>
+  `,
+});
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { ToolTipWithEllipsis },
+  template: `
+    <div style="width: 300px">
+      <ToolTipWithEllipsis v-bind="$props">
+        <p class="text-ellipsis">未超父级宽度，不会截断和弹窗</p>
+      </ToolTipWithEllipsis>
+    </div>
+  `,
+});
+
+# Tooltip 文字提示组件
+
+对 element 中 Tooltip 文字提示组件的改造。会判断 **主体内容** 的宽度及 **其父级** 的宽度，如小于父级宽度则禁用文字提示。不会像原版一样，无论内容是否超出都会弹出文字提示。
+
+多用于表格和列表中对数据进行循环，不确认循环内容是否超出容器。请视情况对 **主体内容** 添加 `text-ellipsis` 样式。
+
+属性基本同原版组件，另额外提供两个属性：
+
+- **width** 控制弹窗的**最大**宽度。
+
+- **systemName** 子系统名称。当在 **子系统中使用组件** 并且 **对弹窗添加了样式** 时，需要传递子系统名称。建议从 `store` 里面取。
+
+`content` 同原版，可以通过 `content` **属性** 设置弹窗内容，也可通过 `slot#content` **插槽** 设置内容。
+
+
+#### 以下为父级宽度都为 `300px` 的情况
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      content: '文章完整内容文章完整内容文章完整内容文章完整内容',
+      width: '200px'
+    }}>
+    {TemplateEllipsis.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story
+    name="noEllipsis"
+    args={{
+      content: '文章完整内容文章完整内容文章完整内容文章完整内容',
+      width: '200px'
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+#### 属性
+
+<ArgsTable story="Default" />

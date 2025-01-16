@@ -1,0 +1,52 @@
+import { Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import SelectListAsyn from './SelectListAsyn.vue'
+
+# SelectListAsyn 下拉框组件
+对 element 中 Select 组件的二次封装。添加了下拉加载的功能，解决了一次加载过多数据时的延迟与渲染卡顿。支持 Select 组件中的大部分属性及方法。具体文档参考 [Select](https://element.eleme.cn/#/zh-CN/component/select)
+
+强制开启了远程搜索功能，另提供了额外的属性来满足具体业务需求。
+
+需引入 `InfiniteScroll, Loading, Select, Option` 组件。
+
+### width 宽度
+宽度，默认200px。直接绑定在 style 上，因此也支持 calc 属性。
+
+### asyn 是否异步
+是否在组件创建时就立即查询列表（执行apiFn）。默认false，需手动调用内部的getList方法来查询列表。
+
+### valueKey 对应值
+对应取值的关键字和显示用的关键字，用于决定 option 的显示，和最终的取值。默认为 `{ label: 'label', value: 'id' }`。**value 的值必须是唯一值**。
+
+### disabledOption 禁用项
+数组形式，内含需禁用的选项列表的id（valueKey中的value字段）
+
+### defaultVal 默认项
+默认选中的值，支持对象数组或一个对象。单选状态下仅支持对象形式。对象结构尽量与查询列表中返回的数据对象结构一致（至少包含 valueKey 中对应的 label 和 value 值）。
+
+### apiFn 查询方法
+
+查询列表的方法，**必填。查询列表接口需支持分页！**接受一个promise函数，这个函数会在查询列表时调用，并传递 `keyword,currentPage,pageSize` 三个参数。
+
+```javascript
+getList(params) {
+  // 可直接返回 api.getList 方法，并处理参数
+  return api.getList({
+    ...params,
+    name: params.keyword
+  }).then(res => {
+    // 也可接 then 方法，将结果处理好后返回
+    res.data.list = res.data.list.map(v => ({
+      ...v
+    }))
+    return res
+  })
+}
+```
+- --如不需要处理参数或格式化结果，直接将 `api.getList` 赋予 `apiFn` 属性即可。
+- --如需要处理参数，需再封装一层，将参数传递给 `api.getList` 后再抛出。参数中会包含`keyword,currentPage,pageSize`。
+- --如需处理返回结果，需接 `then` 方法，将结果处理好后再返回。**注意！**结果必须为对象，并包含一个 `data` 对象， `data` 中包含 `list` 列表 和 `total` 总数，两个值。
+- --**注意！**监听选择值的变化是应该使用 `@change` 事件，如果使用 `@input` 会导致事件触发两次！
+
+### 属性
+
+<ArgsTable of={SelectListAsyn} />

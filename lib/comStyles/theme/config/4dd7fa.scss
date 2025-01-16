@@ -1,0 +1,25 @@
+$--color-primary: #4dd7fa;
+$--color-success: #67C23A;
+$--color-warning: #E6A23C;
+$--color-danger: #F56C6C;
+$--color-white: #FFFFFF;
+
+//自定义变量
+$--color-primary-hover: mix($--color-white, $--color-primary, 20%);
+$--color-success-hover: mix($--color-white, $--color-success, 20%);
+$--color-warning-hover: mix($--color-white, $--color-warning, 20%);
+$--color-danger-hover: mix($--color-white, $--color-danger, 20%);
+
+$--color-primary-active: mix($--color-white, $--color-primary, 10%);
+$--color-success-active: mix($--color-white, $--color-success, 10%);
+$--color-warning-active: mix($--color-white, $--color-warning, 10%);
+$--color-danger-active: mix($--color-white, $--color-danger, 10%);
+
+$--color-success-special: mix($--color-white, $--color-success, 30%);
+$--color-warning-special: mix($--color-white, $--color-warning, 30%);
+$--color-danger-special: mix($--color-white, $--color-danger, 30%);
+
+$--background-color-light: #F5F7FA;
+$--background-color-lighter: #F0F2F5;
+
+$--color-primary-rgb: 77, 215, 250;

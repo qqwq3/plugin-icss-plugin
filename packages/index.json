@@ -1,0 +1,22 @@
+{
+  "FormItemTip": "./packages/components/form/FormItem",
+  "FileImportDialog": "./packages/components/dialog/FileImportDialog",
+  "FileExportDialog": "./packages/components/dialog/FileExportDialog",
+  "CheckboxGroup": "./packages/components/checkbox/CheckboxGroup",
+  "TableFilter": "./packages/components/table/TableFilter",
+  "CtrBtnFilter": "./packages/components/table/CtrBtnFilter",
+  "Progress": "./packages/components/progress/Progress",
+  "Timeline": "./packages/components/timeline/Timeline",
+  "TitleIndicate": "./packages/components/title/TitleIndicate",
+  "ToolTipWithEllipsis": "./packages/components/toolTip/ToolTipWithEllipsis",
+  "SimpleTransfer": "./packages/components/transfer/SimpleTransfer",
+  "SwapTransfer": "./packages/components/transfer/SwapTransfer",
+  "CateTree": "./packages/components/tree/CateTree",
+  "MenuTree": "./packages/components/tree/MenuTree",
+  "SelectListAsyn": "./packages/components/select/SelectListAsyn",
+  "SelectButtonTree": "./packages/components/select/SelectButtonTree",
+  "SelectTree": "./packages/components/select/SelectTree",
+  "WaterfallSelect": "./packages/components/select/WaterfallSelect",
+  "YearRange": "./packages/components/yearRange/YearRange",
+  "AsideWithCollapse": "./packages/components/layouts/AsideWithCollapse"
+}

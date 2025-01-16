@@ -1,0 +1,44 @@
+import { Meta, Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import TitleIndicate from './TitleIndicate.vue'
+
+<Meta
+  title="Components/title/TitleIndicate"
+  component={TitleIndicate}
+  argTypes={{
+    underline: {
+      name: 'size',
+      description: '是否有下划线'
+    },
+    title: {
+      name: 'title',
+      description: '标题内容'
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { TitleIndicate },
+  template: `<TitleIndicate v-bind="$props" />`,
+});
+
+# 标题样式
+
+带竖线的标题样式。通过 `title` 属性设置内容，或直接插入到标签内。
+```html
+<TitleIndicate>标题内容</TitleIndicate>
+```
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      title: '标题内容'
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+#### 属性
+
+<ArgsTable story="Default" />

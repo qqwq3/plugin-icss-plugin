@@ -1,0 +1,122 @@
+import { Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import TableFilter from './TableFilter.vue'
+
+# Table 表格组件
+
+对 element 中 Table 的二次封装，修改了样式并集成了部分业务功能。支持大部分 Table 的属性和方法，具体文档参考 [Table 表格](https://element.eleme.cn/#/zh-CN/component/table)
+
+另提供了额外的属性、插槽来满足具体业务需求。
+
+### data
+
+data 为表格数据，`noPagination:true` 时为数组，否则为对象：
+```javascript
+data: {
+  currentPage: 1,
+  pageSize: 10,
+  total: 15,
+  list: [
+    {
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+      date: '2016-05-04',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1517 弄'
+    }, {
+      date: '2016-05-01',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1519 弄'
+    }
+  ]
+}
+```
+
+### noPagination
+
+通过 noPagination 属性控制是否显示分页。另外组件内自带的 pagination 中写死了 `page-sizes="[10, 20, 50, 100]` ，同时判断了 `pagination.total > 10` 总数量（注意不是当前页数量）小于 10 条时也不显示分页。
+```html
+<div v-else-if="!noPagination && pagination.total > 10">
+```
+如果通过 pagination 插槽来自己实现分页，同样注意要增加上面的判断。
+
+### column
+
+column 与 原版 Table 组件功能相同，控制表头并按 data 的对应关系输出表格。现多提供了4个属性 `columnSlot`、`columnHeaderSlot`、`slotName`、`headerSlotName`。
+
+columnSlot 与 columnHeaderSlot 分别提供了简单的格式表格内容或表头内容的方法。
+```javascript
+column:[{
+  prop: 'index',
+  columnHeaderSlot: ({ $index }) => '第' + $index + '列' ,
+}, {
+  prop: 'type',
+  label: '类型',
+  columnSlot: ({ row }) => row.type === '0' ? '白名单' : '数据接口',
+}]
+```
+
+slotName、headerSlotName 则提供了自定义表格或表头内容的方法。
+```javascript
+column:[{
+  prop: 'index',
+  headerSlotName: 'indexHeaderSlot',
+}, {
+  label: '操作',
+  width: 180,
+  fixed: 'right',
+  slotName: 'ctrSlot'
+}]
+```
+```html
+<table-filter
+  :column="tableColumn"
+  :data="tableData"
+>
+  <template v-slot:indexHeaderSlot="{$index}">第{{ $index }}列</template>
+  <template v-slot:ctrSlot="{row}">
+    <button @click="update(row.id)">提交</button>
+    <button @click="update(row.id)">修改</button>
+  </template>
+</table-filter>
+```
+
+默认对单元格的值 和 `columnSlot` 内的值进行了判空。可通过 `emptyCol` 属性来修改空值时的默认显示。注意判断为空值的条件为：将值 **toString** 后再转布尔值。如无法满足需求，建议在 `columnSlot` 内先判断，或直接使用 插槽 `slotName` 来控制内容。
+
+
+### default、tableSlot、pagination、footBtn 插槽
+
+- default 插槽会直接覆盖掉 `column` 的功能，直接在表格内编写 `el-table-column` 。
+- tableSlot 为原版 Table 组件的 `append` 插槽。插入至表格最后一行之后的内容，若表格有合计行，该 `slot` 会位于合计行之上。
+- pagination 为自定义分页插槽，会覆盖掉组件内部分页。
+- footBtn 为 Table 底部（左侧）的按钮插槽，一般与全选按钮配合使用。
+
+**不再支持**原有的`render-header`和`formatter`属性来自定义表头和单元格！
+
+### paginationChange 事件
+
+paginationChange 会在 **内置的分页组件** 调用 `size-change` `current-change` `prev-click` `next-click` 时触发，一般用于查询数据，配合 `search.js` 混合方法使用。
+
+### 内置ToolTipWithEllipsis
+内置了`ToolTipWithEllipsis`组件，在`column`中开启`showOverflowTooltip: true`会使用`ToolTipWithEllipsis`组件来实现文字提示功能，并且替换掉`el-table`原有的`showOverflowTooltip`功能。同时可传递`toolTipCfg`来配置`ToolTipWithEllipsis`组件,具体配置内容见`ToolTipWithEllipsis`组件栏。
+**注意！**如果`showOverflowTooltip`与`columnSlot`或`slotName`同时使用时，会被自定义的单元格所覆盖。
+- 使用`slotName`时，如需`showOverflowTooltip`功能，请在`slot`内手动引用`ToolTipWithEllipsis`组件
+- `columnSlot`功能应尽量返回简短的文字，如一定需要`showOverflowTooltip`，请使用`slotName`
+
+### Column筛选功能
+设置`ctrFilter`为`true`，可以开启表头的筛选功能。筛选图标会插入到“操作”栏。如果没有，会自动生成一个。
+```javascript
+{
+  label: '操作',
+  width: 100,
+  noFilter: true,
+  slotName: 'ctrSlot'
+}
+```
+- 如果某些表头不需要筛选，请在`column`列表里设置`noFilter`为`true`，可以避免该表头出现在筛选框。
+- 如果有自定义的“操作”栏，请确保“操作”栏的`slotName`为`ctrSlot`，并且`noFilter`为`true`。
+
+### 属性
+
+<ArgsTable of={TableFilter} />

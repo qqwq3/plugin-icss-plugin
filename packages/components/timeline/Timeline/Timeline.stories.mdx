@@ -1,0 +1,104 @@
+import { Meta, Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import { Timeline } from 'element-ui'
+// global css
+import '@/comStyles/global.scss'
+import '@/comStyles/theme/element-styles.scss'
+
+import TimelineItem from './Timeline.vue'
+
+
+<Meta
+  title="Components/timeline/Timeline"
+  component={TimelineItem}
+  argTypes={{
+    timestamp: {
+      name: 'timestamp',
+      description: '时间戳'
+    },
+    hideTimestamp: {
+      name: 'hideTimestamp',
+      description: '是否隐藏时间戳'
+    },
+    type: {
+      name: 'type',
+      description: '节点类型 primary / success / warning / danger / info'
+    },
+    color: {
+      name: 'color',
+      description: '节点颜色，支持 hsl / hsv / hex / rgb'
+    },
+    size: {
+      name: 'size',
+      description: '节点尺寸，仅支持 [normal / large] 两种'
+    },
+    icon: {
+      name: 'icon',
+      description: '节点图标'
+    },
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+ data() {
+   return {
+     activities: [{
+       content: '活动按期开始',
+       timestamp: '2018-04-15'
+     }, {
+       content: '通过审核',
+       timestamp: '2018-04-13'
+     }, {
+       content: '创建成功',
+       timestamp: '2018-04-11'
+     }]
+   };
+ },
+ props: Object.keys(argTypes),
+ components: { [Timeline.name]: Timeline, TimelineItem },
+ template: `
+   <el-Timeline>
+     <TimelineItem
+       v-for="(activity, index) in activities"
+       :key="index"
+       :timestamp="activity.timestamp"
+       v-bind="$props"
+     >
+       {{activity.content}}
+     </TimelineItem>
+   </el-Timeline>
+ `,
+});
+
+
+# Timeline 时间线
+
+对 element 中 Timeline 时间线组件的改造，主要修改了 `el-timeline-item` 的样式，还是需要插入到 `el-timeline` 中使用。 具体参考 [Timeline 时间线](https://element.eleme.cn/#/zh-CN/component/timeline)
+
+属性和原版 `el-timeline-item` 属性相同，但不支持 `placement` 属性，时间固定在左侧。
+
+提供了 `timestamp` 插槽，用于自定义时间栏。可使用 `timestamp` **属性** 控制时间戳，也可用 `timestamp` **插槽** 插入更复杂的内容。
+
+同时为 `timestamp` 与 `dot` 插槽传递了 `type` `color` `size` 三个属性，方便自定义插槽内容。
+
+```html
+<template v-slot:timestamp="{type,color,size}">
+  <span :style="{color:color}">2020-10-1</span>
+</template>
+
+<template v-slot:dot="{type,color,size}">
+  <span :style="{fontSize:size==='large'?'24px':'18px'}">
+    <i class="el-timeline-item__icon"></i>
+  </span>
+</template>
+```
+
+<Canvas>
+  <Story name="Default">
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+#### 属性
+
+<ArgsTable story="Default" />

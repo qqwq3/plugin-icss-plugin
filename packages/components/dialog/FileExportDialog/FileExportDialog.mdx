@@ -1,0 +1,28 @@
+import { Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import FileExportDialog from './FileExportDialog.vue'
+
+# 导出组件
+
+#### onDownFile 方法为必填属性，在点确认后会执行，会传递两个参数：
+params.size 导出行数
+params.fields 选择的导出字段
+callback 回调函数
+onDownFile 必须在完成时执行 callback 回调，并传递 `文件流` 和 `文件名称`
+```html
+<file-export-dialog :on-down-file="onDownFile" />
+```
+```javascript
+// api.exportTemp 为请求导出文件
+onDownFile: (params, callback) => {
+  api.exportTemp({
+     size: params.size,
+     fields: params.fields
+  }).then(res => {
+    callback && callback(res, '模版.csv')
+  })
+}
+```
+
+#### 属性
+
+<ArgsTable of={FileExportDialog} />

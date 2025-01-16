@@ -1,0 +1,46 @@
+import Vue from 'vue'
+import { Progress as ELProgress } from 'element-ui'
+
+Vue.use(ELProgress)
+
+import { Meta, Story, Canvas, ArgsTable  } from '@storybook/addon-docs';
+import Progress from './Progress.vue'
+
+<Meta
+  title="Components/progress/Progress"
+  component={Progress}
+  argTypes={{
+    percentage: {
+      name: 'percentage',
+      description: '百分比，数值类型。预设值为0'
+    },
+    color: {
+      name: 'color',
+      description: '进度条颜色，预设了每个进度的颜色。具体设置参考element'
+    }
+  }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  components: { Progress },
+  props: Object.keys(argTypes),
+  template: '<Progress v-bind="$props" />'
+})
+
+# Progress 进度条组件
+
+对 element 中 Progress 进度条的二次封装，设置了默认的 percentage 和 color 值。其他属性继承自 Progress 组件，具体文档参考 [Progress](https://element.eleme.cn/#/zh-CN/component/progress)
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      percentage: 10
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### 属性
+
+<ArgsTable story="Default" />

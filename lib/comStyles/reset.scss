@@ -1,0 +1,97 @@
+a, button, dd, div, dl, dt, form, h1, h2, h3, h4, h5, h6, img, input, li, ol, p, span, td, textarea, th, ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  font-size: var(--font-size-base);
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif;
+  line-height: 1.5;
+}
+
+*, :after, :before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+button, input, select, textarea {
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+input, textarea {
+  outline: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+  font-weight: 500;
+  font-family: inherit;
+  line-height: 1.2;
+}
+
+img, li, ol, ul {
+  list-style-type: none;
+}
+
+a, a:active, a:hover {
+  text-decoration: none;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+a {
+  cursor: pointer;
+}
+
+i {
+  font-style: normal;
+}
+
+/* fix IE hack \*/
+* html .clear {
+  height: 1%;
+}
+
+a, a:focus, button, input {
+  outline: 0;
+}
+
+a:active, a:hover {
+  outline: 0;
+}
+
+:focus {
+  outline: 0;
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+::-webkit-scrollbar-track-piece {
+  margin: 0;
+  background-color: transparent !important
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 10px
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-color-light) !important;
+  background-clip: padding-box;
+  max-height: 40px;
+  min-height: 28px;
+  border-radius: 6px
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #bbb;
+}
